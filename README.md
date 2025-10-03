@@ -1,3 +1,17 @@
+[![bugsplat-github-banner-basic-outline](https://user-images.githubusercontent.com/20464226/149019306-3186103c-5315-4dad-a499-4fd1df408475.png)](https://bugsplat.com)
+<br/>
+
+# <div align="center">BugSplat</div>
+
+### **<div align="center">Crash and error reporting built for busy developers.</div>**
+
+<div align="center">
+    <a href="https://bsky.app/profile/bugsplatco.bsky.social"><img alt="Follow @bugsplatco on Bluesky" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fpublic.api.bsky.app%2Fxrpc%2Fapp.bsky.actor.getProfile%2F%3Factor%3Dbugsplatco.bsky.social&query=%24.followersCount&style=social&logo=bluesky&label=Follow%20%40bugsplatco.bsky.social"></a>
+    <a href="https://discord.gg/bugsplat"><img alt="Join BugSplat on Discord" src="https://img.shields.io/discord/664965194799251487?label=Join%20Discord&logo=Discord&style=social"></a>
+</div>
+
+<br/>
+
 # MyDotnetCrasher
 
 A sample .NET application for generating various types of crash reports and testing BugSplat crash reporting integration.
@@ -209,3 +223,4 @@ my-dotnet-crasher/
 ## License
 
 This is a sample application provided for demonstration purposes.
+
