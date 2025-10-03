@@ -96,11 +96,11 @@ dotnet run divzero
 # Index out of range exception
 dotnet run index
 
-# Stack overflow exception
-dotnet run stackoverflow
-
 # Aggregate exception (multiple errors)
 dotnet run aggregate
+
+# Unobserved task exception (async exception not awaited)
+dotnet run unobserved
 ```
 
 Or run the compiled executable directly:
@@ -173,10 +173,10 @@ my-dotnet-crasher/
 
 ## Key Features
 
-- **Multiple Crash Types** - Demonstrates 6 different exception scenarios
+- **Multiple Crash Types** - Demonstrates 6 different exception scenarios including unobserved task exceptions
 - **Automatic Symbol Upload** - PDB files uploaded on every build
 - **Minidump Generation** - Creates native Windows minidumps for detailed debugging
-- **Global Exception Handling** - Catches all unhandled exceptions
+- **Comprehensive Exception Handling** - Catches both synchronous and asynchronous unhandled exceptions
 - **Nested Call Stack** - Simulates realistic application structure for better stack traces
 
 ## Troubleshooting

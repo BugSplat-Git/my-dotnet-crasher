@@ -69,7 +69,11 @@ public class Reporter
 
     public void SetupGlobalExceptionHandling()
     {
+        // Catches unhandled exceptions from the main thread and background threads
         AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
+        
+        // Catches unobserved exceptions from Task-based async operations
+        TaskScheduler.UnobservedTaskException += OnUnobservedTaskException;
     }
 
     private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -79,29 +83,7 @@ public class Reporter
             var exception = e.ExceptionObject as Exception;
             if (exception != null)
             {
-                // Log exception details
-                Console.WriteLine($"Exception Type: {exception.GetType().FullName}");
-                Console.WriteLine($"Message: {exception.Message}");
-                Console.WriteLine($"Stack Trace: {exception.StackTrace}");
-
-                // Generate minidump
-                var minidumpPath = CreateMinidump();
-
-                if (!string.IsNullOrEmpty(minidumpPath))
-                {
-                    // Create FileInfo and post to BugSplat with the minidump
-                    var options = new MinidumpPostOptions()
-                    {
-                        MinidumpType = BugSplat.MinidumpTypeId.DotNet
-                    };
-                    FileInfo minidumpFile = new FileInfo(minidumpPath);
-                    Task.Run(() => bugsplat.Post(minidumpFile, options)).Wait();
-                }
-                else
-                {
-                    // Fallback to posting without minidump
-                    Task.Run(() => bugsplat.Post(exception)).Wait();
-                }
+                ReportException(exception);
             }
         }
         catch (Exception reportingException)
@@ -116,6 +98,49 @@ public class Reporter
             {
                 Environment.Exit(1);
             }
+        }
+    }
+
+    private void OnUnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
+    {
+        try
+        {
+            // The minidump will capture the full AggregateException with all inner exceptions
+            ReportException(e.Exception);
+            
+            // Don't mark as observed - let the application terminate on unobserved exceptions
+            // This ensures bugs are visible and prevents running with potentially corrupt state
+        }
+        catch (Exception handlerException)
+        {
+            Console.Error.WriteLine($"Failed to handle unobserved task exception: {handlerException}");
+        }
+    }
+
+    private void ReportException(Exception exception)
+    {
+        // Log exception details
+        Console.WriteLine($"Exception Type: {exception.GetType().FullName}");
+        Console.WriteLine($"Message: {exception.Message}");
+        Console.WriteLine($"Stack Trace: {exception.StackTrace}");
+
+        // Generate minidump
+        var minidumpPath = CreateMinidump();
+
+        if (!string.IsNullOrEmpty(minidumpPath))
+        {
+            // Create FileInfo and post to BugSplat with the minidump
+            var options = new MinidumpPostOptions()
+            {
+                MinidumpType = BugSplat.MinidumpTypeId.DotNet
+            };
+            FileInfo minidumpFile = new FileInfo(minidumpPath);
+            Task.Run(() => bugsplat.Post(minidumpFile, options)).Wait();
+        }
+        else
+        {
+            // Fallback to posting without minidump
+            Task.Run(() => bugsplat.Post(exception)).Wait();
         }
     }
 
