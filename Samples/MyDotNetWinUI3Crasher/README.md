@@ -46,8 +46,9 @@ Add a `REG_DWORD` value **named with the full path** to the `BugSplatWer.dll` si
 the built exe (value data `0`). This needs administrator rights; see step 3 of the
 [BugSplat for Windows (C++) guide](https://docs.bugsplat.com/integrations/desktop/cplusplus)
 for details. If it isn't configured, `App` checks `BugSplat.IsWerEnabled` at startup and shows
-a warning — crashes will not be reported until the key is present. (The headless console sample
-doesn't need this: it relies on BugSplat's application exception handler instead.)
+a warning — crashes will not be reported until the key is present. (Most of the console sample's
+modes are caught by BugSplat's application exception handler, but its fail-fast modes need the
+same registration.)
 
 ## What it demonstrates
 
