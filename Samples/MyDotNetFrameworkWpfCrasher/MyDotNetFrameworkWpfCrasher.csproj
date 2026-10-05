@@ -1,0 +1,50 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net472</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>MyDotNetFrameworkWpfCrasher</RootNamespace>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <ApplicationIcon>Assets\bugsplat.ico</ApplicationIcon>
+    <!-- Windows PDB, the format BugSplat's symbol upload fingerprints. -->
+    <DebugType>full</DebugType>
+
+    <!-- MyDotNetCrasherNative is built for x64 only. A .NET Framework exe defaults to AnyCPU with
+         Prefer32Bit, which runs as a 32-bit process and couldn't load it, so pin x64. -->
+    <Platforms>x64</Platforms>
+    <PlatformTarget>x64</PlatformTarget>
+    <!-- Copy BugSplatDotNet.pdb from the package to the output, so the symbol upload covers it. -->
+    <CopyDebugSymbolFilesFromPackages>true</CopyDebugSymbolFilesFromPackages>
+
+    <!-- Native crash DLL for the Mixed-Mode card, built by ..\MyDotNetCrasherNative (x64,
+         MSBuild) for the same configuration. MyDotNetFrameworkWpfCrasher.sln builds it first. -->
+    <NativeCrasherBin>..\MyDotNetCrasherNative\bin\x64\$(Configuration)\</NativeCrasherBin>
+  </PropertyGroup>
+
+  <!-- BugSplat for .NET. The package also copies BugSplat's native runtime (BugSplat.dll,
+       BugSplatMonitor.exe, BugSplatRc.dll, BugSplatWer.dll) next to the exe. -->
+  <ItemGroup>
+    <PackageReference Include="BugSplat" Version="8.6.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="$(NativeCrasherBin)MyDotNetCrasherNative.dll" Link="MyDotNetCrasherNative.dll" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="$(NativeCrasherBin)MyDotNetCrasherNative.pdb" Link="MyDotNetCrasherNative.pdb" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\*.png" />
+    <None Include="Scripts\SymbolUpload.ps1" />
+  </ItemGroup>
+
+  <!-- Sends the exe, DLLs and their .pdb files to BugSplat so crash stacks show file and line
+       numbers. Needs Scripts\env.ps1 (or BUGSPLAT_CLIENT_ID / BUGSPLAT_CLIENT_SECRET); see the
+       README. To skip it, build with /p:BugSplatSymbolUpload=false. -->
+  <Target Name="BugSplatSymbolUpload" AfterTargets="Build" Condition="'$(BugSplatSymbolUpload)' != 'false'">
+    <Exec Command="powershell -NoProfile -ExecutionPolicy Bypass -File &quot;$(ProjectDir)Scripts\SymbolUpload.ps1&quot; -projectDir &quot;$(ProjectDir)\&quot; -outDir &quot;$(TargetDir)\&quot;" />
+  </Target>
+
+</Project>

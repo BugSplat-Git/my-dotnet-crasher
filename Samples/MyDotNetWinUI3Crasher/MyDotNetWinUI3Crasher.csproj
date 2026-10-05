@@ -1,0 +1,62 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows10.0.22621.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <RootNamespace>MyDotNetWinUI3Crasher</RootNamespace>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Platforms>x64</Platforms>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <UseWinUI>true</UseWinUI>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
+    <!-- Unpackaged so the sample runs with `dotnet run` and no MSIX/cert setup, and
+         self-contained so it redistributes without a separate Windows App SDK Runtime
+         install. To ship as MSIX instead, remove these two lines and add a Windows
+         Application Packaging project (the Content items below flow into it unchanged). -->
+    <WindowsPackageType>None</WindowsPackageType>
+    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+    <EnableMsixTooling>true</EnableMsixTooling>
+
+    <!-- Copy BugSplatDotNet.pdb from the package to the output, so the symbol upload covers it. -->
+    <CopyDebugSymbolFilesFromPackages>true</CopyDebugSymbolFilesFromPackages>
+
+    <!-- Native crash DLL for the Mixed-Mode card. Built by MyDotNetCrasherNative.vcxproj
+         (x64) and consumed here as a prebuilt file, since a .NET SDK project cannot build
+         a vcxproj under `dotnet build`. MyDotNetWinUI3Crasher.sln declares the build-order
+         dependency so an msbuild solution build produces it first; building this project
+         standalone requires building ..\MyDotNetCrasherNative for the same configuration
+         first. It is built from source, so it follows $(Configuration). -->
+    <NativeCrasherBin>..\MyDotNetCrasherNative\bin\x64\$(Configuration)\</NativeCrasherBin>
+  </PropertyGroup>
+
+  <!-- BugSplat for .NET. The package also copies BugSplat's native runtime (BugSplat.dll,
+       BugSplatMonitor.exe, BugSplatRc.dll, BugSplatWer.dll) next to the exe, as content that
+       flows to `dotnet build`, `dotnet publish` and MSIX packaging. -->
+  <ItemGroup>
+    <PackageReference Include="BugSplat" Version="8.6.1" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.251003001" />
+  </ItemGroup>
+
+  <!-- The native crash DLL for the Mixed-Mode card, and its PDB. -->
+  <ItemGroup>
+    <Content Include="$(NativeCrasherBin)MyDotNetCrasherNative.dll" Link="MyDotNetCrasherNative.dll" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="$(NativeCrasherBin)MyDotNetCrasherNative.pdb" Link="MyDotNetCrasherNative.pdb" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\*.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Scripts\SymbolUpload.ps1" />
+  </ItemGroup>
+
+  <!-- Sends the exe, DLLs and their .pdb files to BugSplat so crash stacks show file and line
+       numbers. Needs Scripts\env.ps1 (or BUGSPLAT_CLIENT_ID / BUGSPLAT_CLIENT_SECRET); see the
+       README. To skip it, build with /p:BugSplatSymbolUpload=false. -->
+  <Target Name="BugSplatSymbolUpload" AfterTargets="Build" Condition="'$(BugSplatSymbolUpload)' != 'false'">
+    <Exec Command="powershell -NoProfile -ExecutionPolicy Bypass -File &quot;$(ProjectDir)Scripts\SymbolUpload.ps1&quot; -projectDir &quot;$(ProjectDir)\&quot; -outDir &quot;$(TargetDir)\&quot;" />
+  </Target>
+
+</Project>

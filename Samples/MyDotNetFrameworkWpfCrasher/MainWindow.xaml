@@ -1,0 +1,140 @@
+<Window
+    x:Class="MyDotNetFrameworkWpfCrasher.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="MyDotNetFrameworkWpfCrasher" Width="880" Height="760"
+    Background="{StaticResource ScreenBgBrush}" FontFamily="Segoe UI">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <Grid Margin="32,24,32,28" MaxWidth="800">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- Top bar: logo + version + connected pill -->
+            <DockPanel Grid.Row="0" Margin="0,0,0,18" LastChildFill="False">
+                <Image DockPanel.Dock="Left" Source="Assets/bugsplat-logo.png" Height="26" Stretch="Uniform" />
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Border Background="{StaticResource BadgeBgBrush}" CornerRadius="10" Padding="10,3" Margin="0,0,10,0">
+                        <TextBlock x:Name="VersionChip" FontSize="12" Foreground="{StaticResource TextTertiaryBrush}" />
+                    </Border>
+                    <Border Background="{StaticResource BadgeBgBrush}" CornerRadius="10" Padding="10,3">
+                        <StackPanel Orientation="Horizontal">
+                            <Ellipse Width="8" Height="8" Fill="{StaticResource ConnectedBrush}" VerticalAlignment="Center" Margin="0,0,6,0" />
+                            <TextBlock Text="Connected" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </DockPanel>
+
+            <!-- Title block -->
+            <StackPanel Grid.Row="1" Margin="0,0,0,22">
+                <TextBlock Text="BugSplat .NET Framework SDK &#183; Demo" FontSize="28" FontWeight="Bold"
+                           Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,6" />
+                <TextBlock Text="Trigger an event. We catch it, group it, and route it to your dashboard."
+                           FontSize="15" Foreground="{StaticResource TextSecondaryBrush}" TextWrapping="Wrap" />
+            </StackPanel>
+
+            <!-- Section label -->
+            <TextBlock Grid.Row="2" Text="TRIGGER AN EVENT" FontSize="11" FontWeight="SemiBold"
+                       Foreground="{StaticResource TextTertiaryBrush}" Margin="2,0,0,10" />
+
+            <!-- Event card grid -->
+            <Grid Grid.Row="3" Margin="0,0,0,22">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="14" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="14" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="14" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Button Grid.Row="0" Grid.Column="0" Style="{StaticResource EventCardButtonStyle}" Click="CrashCard_Click">
+                    <DockPanel>
+                        <Image DockPanel.Dock="Left" Source="Assets/splat_crash.png" Width="40" Height="40" VerticalAlignment="Top" Margin="0,0,12,0" />
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Crash" FontSize="16" FontWeight="SemiBold" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,4" />
+                            <TextBlock Text="Unhandled exception &#183; managed stack + native minidump" FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" TextWrapping="Wrap" />
+                        </StackPanel>
+                    </DockPanel>
+                </Button>
+
+                <Button Grid.Row="0" Grid.Column="2" Style="{StaticResource EventCardButtonStyle}" Click="NonCrashErrorCard_Click">
+                    <DockPanel>
+                        <Image DockPanel.Dock="Left" Source="Assets/splat_error.png" Width="40" Height="40" VerticalAlignment="Top" Margin="0,0,12,0" />
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Non-Crash Error" FontSize="16" FontWeight="SemiBold" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,4" />
+                            <TextBlock Text="Post a caught exception &#183; app keeps running" FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" TextWrapping="Wrap" />
+                        </StackPanel>
+                    </DockPanel>
+                </Button>
+
+                <Button Grid.Row="2" Grid.Column="0" Style="{StaticResource EventCardButtonStyle}" Click="UserFeedbackCard_Click">
+                    <DockPanel>
+                        <Image DockPanel.Dock="Left" Source="Assets/splat_feedback.png" Width="40" Height="40" VerticalAlignment="Top" Margin="0,0,12,0" />
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="User Feedback" FontSize="16" FontWeight="SemiBold" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,4" />
+                            <TextBlock Text="Send a note &#183; returns a crash id" FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" TextWrapping="Wrap" />
+                        </StackPanel>
+                    </DockPanel>
+                </Button>
+
+                <Button Grid.Row="2" Grid.Column="2" Style="{StaticResource EventCardButtonStyle}" Click="HangCard_Click">
+                    <DockPanel>
+                        <Image DockPanel.Dock="Left" Source="Assets/splat_hang.png" Width="40" Height="40" VerticalAlignment="Top" Margin="0,0,12,0" />
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Hang" FontSize="16" FontWeight="SemiBold" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,4" />
+                            <TextBlock Text="Freeze the UI thread until BugSplat reports the hang" FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" TextWrapping="Wrap" />
+                        </StackPanel>
+                    </DockPanel>
+                </Button>
+
+                <Button Grid.Row="4" Grid.Column="0" Style="{StaticResource EventCardButtonStyle}" Click="MixedModeCard_Click">
+                    <DockPanel>
+                        <Image DockPanel.Dock="Left" Source="Assets/splat_crash.png" Width="40" Height="40" VerticalAlignment="Top" Margin="0,0,12,0" />
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Mixed-Mode Crash" FontSize="16" FontWeight="SemiBold" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,4" />
+                            <TextBlock Text="Managed &#8594; native access violation &#183; one unified C#/C++ stack" FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" TextWrapping="Wrap" />
+                        </StackPanel>
+                    </DockPanel>
+                </Button>
+
+                <!-- Enabled only when BugSplatWer.dll is registered; see MainWindow's constructor. -->
+                <Button x:Name="HeapCorruptionCard" Grid.Row="4" Grid.Column="2" Style="{StaticResource EventCardButtonStyle}"
+                        Click="HeapCorruptionCard_Click" ToolTipService.ShowOnDisabled="True">
+                    <DockPanel>
+                        <Image DockPanel.Dock="Left" Source="Assets/splat_crash.png" Width="40" Height="40" VerticalAlignment="Top" Margin="0,0,12,0" />
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Heap Corruption" FontSize="16" FontWeight="SemiBold" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,4" />
+                            <TextBlock Text="A C++ library frees memory twice &#183; captured through WER only" FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" TextWrapping="Wrap" />
+                        </StackPanel>
+                    </DockPanel>
+                </Button>
+            </Grid>
+
+            <!-- Recent activity -->
+            <Border Grid.Row="4" Style="{StaticResource CardStyle}">
+                <StackPanel>
+                    <DockPanel Margin="0,0,0,12">
+                        <TextBlock DockPanel.Dock="Right" VerticalAlignment="Center">
+                            <Hyperlink Click="ViewDashboard_Click" Foreground="{StaticResource LinkBrush}">View dashboard &#8599;</Hyperlink>
+                        </TextBlock>
+                        <TextBlock Text="RECENT ACTIVITY" FontSize="11" FontWeight="SemiBold"
+                                   Foreground="{StaticResource TextTertiaryBrush}" VerticalAlignment="Center" />
+                    </DockPanel>
+                    <StackPanel x:Name="RecentActivityPanel" />
+                    <TextBlock x:Name="RecentActivityEmpty" Text="No activity yet." FontSize="13"
+                               Foreground="{StaticResource TextTertiaryBrush}" />
+                </StackPanel>
+            </Border>
+        </Grid>
+    </ScrollViewer>
+</Window>
