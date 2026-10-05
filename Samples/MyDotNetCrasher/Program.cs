@@ -123,9 +123,10 @@ internal static class Crashers
         // What this crash is supposed to look like, written before it happens, because nothing
         // can reconstruct the managed half afterwards. The header also records whether this
         // build is JIT, ReadyToRun or NativeAOT, which is what decides the symbolication path
-        // the fixture exercises — see BugSplat-Git/bugsplat-cdb#14. Recorded here, one frame
-        // above the crash method, so it includes the sample frames; the shapes that fault
-        // further down (deep, generic, lambda, async) add their own frames below it.
+        // the fixture exercises — see BugSplat-Git/bugsplat-cdb#14. Recorded here, at the
+        // dispatch point, so it includes the sample frames but not the frames each mode crashes
+        // in below them (DeepA/DeepFault, Box.Fail, the lambda, the async state machine, the
+        // native transitions).
         CrashExpectation.Record(mode);
 
         switch (mode)

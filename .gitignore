@@ -5,7 +5,6 @@ obj/
 
 # Downloaded by Tools\Get-SymbolUpload.ps1 on the first build
 Tools/symbol-upload-windows.exe
-Tools/symbol-upload-windows.version
 
 # Your BugSplat Client ID and Secret
 **/Scripts/env.ps1
