@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Application
+    x:Class="MyDotNetWinUI3Crasher.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    RequestedTheme="Light">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- BugSplat sample design system (shared with the C++ MyWinUI3Crasher sample). -->
+            <SolidColorBrush x:Key="ScreenBgBrush" Color="#FAF8F2" />
+            <SolidColorBrush x:Key="CardBgBrush" Color="#FFFFFF" />
+            <SolidColorBrush x:Key="CardStrokeBrush" Color="#ECEAE2" />
+            <SolidColorBrush x:Key="TextPrimaryBrush" Color="#0E1116" />
+            <SolidColorBrush x:Key="TextSecondaryBrush" Color="#4B5563" />
+            <SolidColorBrush x:Key="TextTertiaryBrush" Color="#6B7280" />
+            <SolidColorBrush x:Key="BadgeBgBrush" Color="#F1EFE8" />
+            <SolidColorBrush x:Key="LinkBrush" Color="#1F73E8" />
+            <SolidColorBrush x:Key="FeedbackAccentBrush" Color="#4E9D78" />
+            <SolidColorBrush x:Key="ConnectedBrush" Color="#22C55E" />
+
+            <Style x:Key="CardStyle" TargetType="Border">
+                <Setter Property="Background" Value="{StaticResource CardBgBrush}" />
+                <Setter Property="BorderBrush" Value="{StaticResource CardStrokeBrush}" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="CornerRadius" Value="14" />
+                <Setter Property="Padding" Value="16" />
+            </Style>
+            <Style x:Key="BoxedTextBoxStyle" TargetType="TextBox">
+                <Setter Property="CornerRadius" Value="8" />
+                <Setter Property="Padding" Value="10,8" />
+                <Setter Property="MinHeight" Value="36" />
+            </Style>
+            <Style x:Key="AccentPrimaryButtonStyle" TargetType="Button">
+                <Setter Property="Background" Value="{StaticResource FeedbackAccentBrush}" />
+                <Setter Property="Foreground" Value="#FFFFFF" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="CornerRadius" Value="8" />
+                <Setter Property="Padding" Value="16,10" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+            </Style>
+            <Style x:Key="EventCardButtonStyle" TargetType="Button">
+                <Setter Property="Background" Value="{StaticResource CardBgBrush}" />
+                <Setter Property="BorderBrush" Value="{StaticResource CardStrokeBrush}" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="CornerRadius" Value="14" />
+                <Setter Property="Padding" Value="16" />
+                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                <Setter Property="HorizontalContentAlignment" Value="Left" />
+                <Setter Property="VerticalAlignment" Value="Stretch" />
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

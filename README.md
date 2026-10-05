@@ -12,215 +12,58 @@
 
 <br/>
 
-# MyDotnetCrasher
+# my-dotnet-crasher
 
-A sample .NET application for generating various types of crash reports and testing BugSplat crash reporting integration.
+Sample applications for [BugSplat for .NET](https://docs.bugsplat.com/introduction/getting-started/integrations/desktop/bugsplat-for-dot-net), which reports crashes, hangs, handled exceptions, and user feedback from .NET Framework and .NET 10 applications on Windows. Each sample installs it from the [`BugSplat`](https://www.nuget.org/packages/BugSplat) NuGet package.
 
-## Overview
+| Sample | Runtime | What it shows |
+| --- | --- | --- |
+| [MyDotNetCrasher](Samples/MyDotNetCrasher) | .NET 10 console | A mode for every kind of crash, including mixed C#/C++ crashes |
+| [MyDotNetWinUI3Crasher](Samples/MyDotNetWinUI3Crasher) | .NET 10, WinUI 3 | A button for each kind of report |
+| [MyDotNetFrameworkWpfCrasher](Samples/MyDotNetFrameworkWpfCrasher) | .NET Framework 4.7.2, WPF | A button for each kind of report |
 
-MyDotnetCrasher is a demonstration application that simulates different types of .NET exceptions and crashes, automatically capturing them with BugSplat's crash reporting service. This project is useful for:
-
-- Testing BugSplat integration in .NET applications
-- Demonstrating various crash types and stack traces
-- Learning about exception handling and crash reporting workflows
-- Validating symbol upload and crash analysis features
+The mixed C#/C++ crashes call into a small C++ library, [MyDotNetCrasherNative](Samples/MyDotNetCrasherNative), which each sample's solution builds first.
 
 ## Prerequisites
 
-- [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) or later
-- A [BugSplat](https://www.bugsplat.com/) account
-- Windows operating system (for symbol uploads)
+- Windows
+- Visual Studio 2022 or later, with the **.NET desktop development** and **Desktop development with C++** workloads, plus **WinUI application development** for the WinUI 3 sample
+- The [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
+- A [BugSplat](https://www.bugsplat.com) account
 
 ## Getting Started
 
-### 1. Clone the Project
+1. Clone this repository:
 
-```bash
-git clone https://github.com/BugSplat-Git/my-dotnet-crasher.git
-cd my-dotnet-crasher
-```
+   ```
+   git clone https://github.com/BugSplat-Git/my-dotnet-crasher.git
+   ```
 
-### 2. Configure BugSplat Settings
+2. Set your BugSplat database in the sample you want to run: `Program.cs` for MyDotNetCrasher, or `App.Database` in `App.xaml.cs` for the WinUI 3 and WPF samples.
+3. Create a Client ID and Client Secret for your database on the [Integrations](https://app.bugsplat.com/v2/database/integrations#oauth) page, and put them in the sample's `Scripts\env.ps1`:
 
-You need to update the BugSplat database credentials in two files:
+   ```powershell
+   $BUGSPLAT_CLIENT_ID = "your-client-id"
+   $BUGSPLAT_CLIENT_SECRET = "your-client-secret"
+   ```
 
-#### Program.cs
+   or set the `BUGSPLAT_CLIENT_ID` and `BUGSPLAT_CLIENT_SECRET` environment variables. Each build uploads the sample's symbols with [symbol-upload](https://github.com/BugSplat-Git/symbol-upload), which `Tools\Get-SymbolUpload.ps1` downloads on the first build, so crash reports show function names, file names, and line numbers. To build without uploading, pass `/p:BugSplatSymbolUpload=false`.
+4. Open the sample's solution (`MyDotNetCrasher.sln`, `MyDotNetWinUI3Crasher.sln`, or `MyDotNetFrameworkWpfCrasher.sln`) in Visual Studio and build it for **x64**.
+5. Run the sample outside the Visual Studio debugger (Ctrl+F5), which would otherwise intercept the crashes BugSplat reports.
+6. Open the [Crashes](https://app.bugsplat.com/v2/crashes) page and click a crash's ID to see its symbolicated call stack.
 
-Open `Program.cs` and update the `Reporter` initialization with your BugSplat credentials:
+Each sample's README describes its crashes and buttons in detail.
 
-```csharp
-private static Reporter reporter = new Reporter("your-database", "MyDotnetCrasher", "1.0.0");
-```
+## Windows Error Reporting
 
-Replace:
-- `"your-database"` - Your BugSplat database name
-- `"MyDotnetCrasher"` - Your application name (can be customized)
-- `"1.0.0"` - Your application version
-
-#### MyDotnetCrasher.csproj
-
-Open `MyDotnetCrasher.csproj` and update the symbol upload configuration in the `UploadSymbols` target:
-
-```xml
-<Exec Command=".\Tools\symbol-upload-windows.exe -b your-database -a MyDotnetCrasher -v 1.0.0 -u your-email@example.com -p your-password -f &quot;**/*.{pdb,exe,dll}&quot; -d &quot;./bin&quot;"/>
-```
-
-Replace:
-- `-b your-database` - Your BugSplat database name
-- `-a MyDotnetCrasher` - Your application name (should match Program.cs)
-- `-v 1.0.0` - Your application version (should match Program.cs)
-- `-u your-email@example.com` - Your BugSplat login email
-- `-p your-password` - Your BugSplat password
-
-> **Note:** The symbol upload step automatically runs after each build to ensure your crash reports include file names and line numbers.
-
-### 3. Build the Project
-
-Build the application using the .NET CLI:
-
-```bash
-dotnet build
-```
-
-This will:
-1. Restore NuGet packages (including [BugSplatDotNetStandard](https://github.com/BugSplat-Git/bugsplat-dotnet-standard))
-2. Compile the application
-3. Automatically upload debug symbols (PDB files) to BugSplat
-
-The executable will be located at: `bin\Debug\net8.0\MyDotnetCrasher.exe`
-
-## Generating Crash Reports
-
-The application supports multiple crash types that can be triggered via command-line arguments.
-
-### Available Crash Types
-
-Run the application with one of the following crash type arguments:
-
-```bash
-# Generic exception (default if no argument provided)
-dotnet run exception
-
-# Null reference exception
-dotnet run nullref
-
-# Divide by zero exception
-dotnet run divzero
-
-# Index out of range exception
-dotnet run index
-
-# Aggregate exception (multiple errors)
-dotnet run aggregate
-
-# Unobserved task exception (async exception not awaited)
-dotnet run unobserved
-```
-
-Or run the compiled executable directly:
-
-```bash
-.\bin\Debug\net8.0\MyDotnetCrasher.exe nullref
-```
-
-### What Happens During a Crash
-
-When a crash occurs, the application will:
-
-1. Catch the exception using global exception handlers
-2. Print exception details to the console
-3. Generate a Windows minidump file
-4. Upload the crash report and minidump to BugSplat
-5. Exit with error code 1
-
-## Viewing Crashes on BugSplat
-
-After generating crash reports, you can view and analyze them on the BugSplat dashboard:
-
-### 1. Access the Dashboard
-
-1. Log in to your [BugSplat](https://app.bugsplat.com/v2/dashboard) account
-2. Select your database from the dropdown menu
-
-### 2. View Crash Reports
-
-Navigate to the [**Crashes**](https://app.bugsplat.com/v2/crashes) page to see all reported crashes. You'll see:
-
-- **Crash ID** - Unique identifier for each crash
-- **Application** - "MyDotnetCrasher"
-- **Version** - The version you configured (e.g., "1.0.0")
-- **Exception Type** - The type of exception that occurred
-- **Date/Time** - When the crash occurred
-- **User** - User identifier (if configured)
-
-### 3. Analyze Individual Crashes
-
-Click on the **ID** of any crash to view detailed information:
-
-- **Call Stack** - Full stack trace with file names and line numbers (thanks to uploaded symbols)
-- **Exception Message** - The error message from the exception
-- **Minidump** - Download the native minidump for advanced debugging
-- **System Information** - OS version, .NET version, etc.
-- **Custom Metadata** - Any additional data attached to the crash
-
-### 4. Group Similar Crashes
-
-BugSplat automatically groups similar crashes together, making it easy to:
-
-- Identify which crashes affect the most users
-- Track crash trends over time
-- Prioritize bug fixes based on impact
-
-## Project Structure
+Some crashes bypass the application's exception handlers and go straight to Windows Error Reporting: heap corruption, `__fastfail`, `/GS` failures, and every crash in a WinUI 3 app. BugSplat captures them with `BugSplatWer.dll`, which Windows loads only when its path is in the registry. **The WinUI 3 sample requires it.** From an elevated prompt:
 
 ```
-my-dotnet-crasher/
-├── Program.cs                      # Main application entry point and crash simulation
-├── Reporter.cs                     # BugSplat integration and crash reporting logic
-├── MyDotnetCrasher.csproj          # Project configuration and symbol upload
-├── Tools/
-│   └── symbol-upload-windows.exe   # BugSplat symbol upload utility
-└── bin/
-    └── Debug/
-        └── net8.0/                 # Build output and executable
+reg add "HKLM\SOFTWARE\Microsoft\Windows\Windows Error Reporting\RuntimeExceptionHelperModules" /v "<path to the sample's output folder>\BugSplatWer.dll" /t REG_DWORD /d 0 /f
 ```
-
-## Key Features
-
-- **Multiple Crash Types** - Demonstrates 6 different exception scenarios including unobserved task exceptions
-- **Automatic Symbol Upload** - PDB files uploaded on every build
-- **Minidump Generation** - Creates native Windows minidumps for detailed debugging
-- **Comprehensive Exception Handling** - Catches both synchronous and asynchronous unhandled exceptions
-- **Nested Call Stack** - Simulates realistic application structure for better stack traces
-
-## Troubleshooting
-
-### Symbols Not Appearing in Stack Traces
-
-- Verify the symbol upload completed successfully during build
-- Check that database name, application name, and version match between Program.cs and MyDotnetCrasher.csproj
-- Ensure you're using the correct BugSplat credentials
-
-### Crashes Not Appearing in Dashboard
-
-- Verify your BugSplat credentials are correct
-- Check your internet connection
-- Look for error messages in the console output
-- Ensure the database name is correct
-
-### Symbol Upload Fails
-
-- Verify the `Tools\symbol-upload-windows.exe` file exists
-- Check that your BugSplat login credentials are correct
-- Ensure you have an active internet connection
 
 ## Learn More
 
-- [BugSplat Documentation](https://docs.bugsplat.com/)
-- [BugSplat .NET SDK](https://github.com/BugSplat-Git/bugsplat-dotnet-standard)
-- [Symbol Upload Guide](https://docs.bugsplat.com/introduction/development/working-with-symbol-files)
-
-## License
-
-This is a sample application provided for demonstration purposes.
-
+- [BugSplat for .NET](https://docs.bugsplat.com/introduction/getting-started/integrations/desktop/bugsplat-for-dot-net)
+- [The `BugSplat` NuGet package](https://www.nuget.org/packages/BugSplat)
+- [Uploading symbols](https://docs.bugsplat.com/introduction/development/working-with-symbol-files)

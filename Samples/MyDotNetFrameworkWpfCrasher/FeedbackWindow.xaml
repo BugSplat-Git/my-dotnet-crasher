@@ -1,0 +1,23 @@
+<Window
+    x:Class="MyDotNetFrameworkWpfCrasher.FeedbackWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Send feedback" Width="460" SizeToContent="Height" ResizeMode="NoResize"
+    WindowStartupLocation="CenterOwner" ShowInTaskbar="False"
+    Background="{StaticResource ScreenBgBrush}" FontFamily="Segoe UI">
+    <StackPanel Margin="20">
+        <TextBlock Text="Title" Foreground="{StaticResource TextSecondaryBrush}" />
+        <TextBox x:Name="TitleBox" Style="{StaticResource BoxedTextBoxStyle}" />
+        <TextBlock Text="What happened?" Foreground="{StaticResource TextSecondaryBrush}" />
+        <TextBox x:Name="DescriptionBox" Style="{StaticResource BoxedTextBoxStyle}" MinHeight="96"
+                 AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" />
+        <TextBlock Text="Name (optional)" Foreground="{StaticResource TextSecondaryBrush}" />
+        <TextBox x:Name="NameBox" Style="{StaticResource BoxedTextBoxStyle}" />
+        <TextBlock Text="Email (optional)" Foreground="{StaticResource TextSecondaryBrush}" />
+        <TextBox x:Name="EmailBox" Style="{StaticResource BoxedTextBoxStyle}" />
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,0,0">
+            <Button Content="Cancel" IsCancel="True" Padding="16,8" Margin="0,0,10,0" />
+            <Button Content="Send" IsDefault="True" Style="{StaticResource AccentPrimaryButtonStyle}" Click="Send_Click" />
+        </StackPanel>
+    </StackPanel>
+</Window>
