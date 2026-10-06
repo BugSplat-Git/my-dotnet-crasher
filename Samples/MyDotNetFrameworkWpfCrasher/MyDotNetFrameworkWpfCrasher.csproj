@@ -27,7 +27,7 @@
   <!-- BugSplat for .NET. The package also copies BugSplat's native runtime (BugSplat.dll,
        BugSplatMonitor.exe, BugSplatReporter.exe, BugSplatWer.dll) next to the exe. -->
   <ItemGroup>
-    <PackageReference Include="BugSplat" Version="9.0.0" />
+    <PackageReference Include="BugSplat" Version="9.0.1" />
   </ItemGroup>
 
   <ItemGroup>
