@@ -75,10 +75,22 @@ try { DoWork(); }
 catch (Exception ex) { App.BugSplat.Post(ex); }
 ```
 
+## Custom crash dialog
+
+This sample themes BugSplat's crash dialog with the files in [`BugSplatTheme`](BugSplatTheme): `theme.json` for colors, fonts, layout and the logo, and `strings.en-US.json` for every word the dialog shows. It's an example theme for a made-up game, Nebula Forge. The `BugSplat` package copies the folder into your build output, where `BugSplatReporter.exe` reads it at run time, and checks it at build time, reporting problems as `BSTHEME` warnings. Delete the folder to get BugSplat's default dialog.
+
+The theme's contact note links to a privacy policy. Links in the dialog only work for domains the app allows in code, so `App` sets:
+
+```csharp
+BugSplat.CrashDialogLinkDomains = new[] { "nebulaforge.example" };
+```
+
+See [Customize the Crash Dialog](https://docs.bugsplat.com/education/how-tos/customize-the-crash-dialog) for every setting.
+
 ## Shipping the BugSplat native runtime
 
 BugSplat captures crashes out-of-process: `BugSplat.dll` spawns `BugSplatMonitor.exe` from the
-application's own directory, so `BugSplat.dll`, `BugSplatMonitor.exe`, `BugSplatRc.dll`, and
+application's own directory, so `BugSplat.dll`, `BugSplatMonitor.exe`, `BugSplatReporter.exe` (the crash dialog), and
 `BugSplatWer.dll` **must sit next to your executable at run time**.
 
 The [`BugSplat`](https://www.nuget.org/packages/BugSplat) package adds them as `Content` items, so

@@ -96,7 +96,7 @@ reports it through its own `CLR20r3` WER event, which doesn't call runtime-excep
 ## Adding BugSplat to a .NET Framework app
 
 - Add the [`BugSplat`](https://www.nuget.org/packages/BugSplat) NuGet package.
-- `BugSplat.dll`, `BugSplatMonitor.exe`, `BugSplatRc.dll`, and `BugSplatWer.dll` **must sit next
+- `BugSplat.dll`, `BugSplatMonitor.exe`, `BugSplatReporter.exe` (the crash dialog), and `BugSplatWer.dll` **must sit next
   to your executable at run time**: `BugSplat.dll` spawns `BugSplatMonitor.exe` from the
   application's own directory. The package copies them into your output for the architecture
   your app runs as.
