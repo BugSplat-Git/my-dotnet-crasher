@@ -1,0 +1,27 @@
+{
+  "locale": "en-US",
+  "direction": "ltr",
+  "fontFamily": "",
+  "strings": {
+    "title": "{productName} - Crash Report",
+    "headline": "{productName} hit a snag and had to close.",
+    "body": "Sorry about that! Sending this report helps our team find and fix the problem faster. It includes technical details about the crash, plus anything you choose to add below.",
+    "descriptionLabel": "What were you doing when it happened?",
+    "descriptionPlaceholder": "Anything helps, even \"I opened a level.\"",
+    "nameLabel": "Name",
+    "emailLabel": "Email",
+    "emailPlaceholder": "you@example.com",
+    "optionalHint": "optional",
+    "contactNote": "Leave your contact details if you'd like us to follow up. See our <a href=\"https://nebulaforge.example/privacy\">privacy policy</a>.",
+    "consent": "I agree to let {productName} store this report for up to one year.",
+    "send": "&Send Report",
+    "dontSend": "&Not Now",
+    "details": "&What's included?",
+    "filesTitle": "Report Details",
+    "filesBody": "These files are included in the crash report. They describe the state of {productName} when it crashed, along with anything you entered.",
+    "filesColumnFile": "File",
+    "filesColumnPath": "Path",
+    "ok": "OK",
+    "cancel": "Cancel"
+  }
+}

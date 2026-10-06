@@ -19,7 +19,7 @@ Sample applications for [BugSplat for .NET](https://docs.bugsplat.com/introducti
 | Sample | Runtime | What it shows |
 | --- | --- | --- |
 | [MyDotNetCrasher](Samples/MyDotNetCrasher) | .NET 10 console | A mode for every kind of crash, including mixed C#/C++ crashes |
-| [MyDotNetWinUI3Crasher](Samples/MyDotNetWinUI3Crasher) | .NET 10, WinUI 3 | A button for each kind of report |
+| [MyDotNetWinUI3Crasher](Samples/MyDotNetWinUI3Crasher) | .NET 10, WinUI 3 | A button for each kind of report, and a custom crash dialog theme |
 | [MyDotNetFrameworkWpfCrasher](Samples/MyDotNetFrameworkWpfCrasher) | .NET Framework 4.7.2, WPF | A button for each kind of report |
 
 The mixed C#/C++ crashes call into a small C++ library, [MyDotNetCrasherNative](Samples/MyDotNetCrasherNative), which each sample's solution builds first.

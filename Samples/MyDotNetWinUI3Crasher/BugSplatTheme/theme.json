@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "appearance": "dark",
+
+  "brand": {
+    "productName": "Nebula Forge",
+    "logo": "nebula-logo.png",
+    "logoHeight": 40,
+    "logoAlignment": "start"
+  },
+
+  "palette": {
+    "light": {
+      "background": "#F6F2FC",
+      "surface": "#FFFFFF",
+      "surfaceAlt": "#EFE7FA",
+      "bannerBackground": "#1B1530",
+      "footerBackground": "#EFE7FA",
+      "textPrimary": "#1B1530",
+      "textSecondary": "#5E5475",
+      "textDisabled": "#A69DB8",
+      "accent": "#7C3AED",
+      "accentHover": "#6D28D9",
+      "accentPressed": "#5B21B6",
+      "accentText": "#FFFFFF",
+      "border": "#D8CDEB",
+      "borderStrong": "#8B7FA6",
+      "focus": "#1B1530"
+    },
+    "dark": {
+      "background": "#14101F",
+      "surface": "#1F1830",
+      "surfaceAlt": "#2A2140",
+      "bannerBackground": "#0B0814",
+      "footerBackground": "#100C1A",
+      "textPrimary": "#F5F0FF",
+      "textSecondary": "#B7ABD1",
+      "textDisabled": "#6E6487",
+      "accent": "#FFB547",
+      "accentHover": "#FFC56E",
+      "accentPressed": "#E09A2E",
+      "accentText": "#1B1530",
+      "border": "#3A2F55",
+      "borderStrong": "#6B5C8F",
+      "focus": "#FFD666"
+    }
+  },
+
+  "type": {
+    "family": "Segoe UI",
+    "baseSize": 9,
+    "headingSize": 14,
+    "headingWeight": 700
+  },
+
+  "layout": {
+    "windowWidth": 460,
+    "padding": 22,
+    "spacing": 14,
+    "controlRadius": 8,
+    "roundedWindow": true,
+    "mica": false,
+    "banner": true,
+    "bannerHeight": 72,
+    "descriptionLines": 5
+  },
+
+  "features": {
+    "showName": true,
+    "showEmail": true,
+    "showConsent": true,
+    "showDetailsButton": true,
+    "requireEmail": false,
+    "autoCloseSeconds": 0
+  }
+}

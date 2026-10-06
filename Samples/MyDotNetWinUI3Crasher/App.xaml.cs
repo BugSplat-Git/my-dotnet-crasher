@@ -35,6 +35,11 @@ public partial class App : Application
         };
         BugSplat.SetAttribute("runtime", RuntimeInformation.FrameworkDescription);
 
+        // The crash dialog is themed by the BugSplatTheme folder next to this project (an example theme
+        // for a made-up game, Nebula Forge). Its contact note links to a privacy policy, and links in
+        // the dialog only work for domains the app allows here.
+        BugSplat.CrashDialogLinkDomains = new[] { "nebulaforge.example" };
+
         // A WinUI 3 app's crashes are captured through BugSplat's WER runtime-exception helper
         // (BugSplatWer.dll), which is registered only when this machine has an allowlist entry
         // naming BugSplatWer.dll under

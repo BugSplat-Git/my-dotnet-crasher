@@ -90,7 +90,7 @@ The other modes use BugSplat's application exception handler and need no such se
 ## Shipping the BugSplat native runtime
 
 BugSplat captures crashes out-of-process: `BugSplat.dll` spawns `BugSplatMonitor.exe` from the
-application's own directory, so `BugSplat.dll`, `BugSplatMonitor.exe`, `BugSplatRc.dll`, and
+application's own directory, so `BugSplat.dll`, `BugSplatMonitor.exe`, `BugSplatReporter.exe` (the crash dialog), and
 `BugSplatWer.dll` **must sit next to your executable at run time**. The `BugSplat` package
 copies them, with their PDBs, into the build output, and the binaries into the `dotnet publish`
 output. This project adds `MyDotNetCrasherNative.dll` and its PDB the same way.
