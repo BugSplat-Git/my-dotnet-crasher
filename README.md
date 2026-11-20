@@ -14,6 +14,9 @@
 
 # my-dotnet-crasher
 
+> [!IMPORTANT]
+> **This repository is read-only.** The BugSplat for .NET samples now live in the [Samples](https://github.com/BugSplat-Git/Samples) repository, alongside the C++ samples, and are updated with each [bugsplat-windows](https://github.com/BugSplat-Git/bugsplat-windows/releases) release. Please use, and open issues and pull requests in, [Samples](https://github.com/BugSplat-Git/Samples) instead.
+
 Sample applications for [BugSplat for .NET](https://docs.bugsplat.com/introduction/getting-started/integrations/desktop/bugsplat-for-dot-net), which reports crashes, hangs, handled exceptions, and user feedback from .NET Framework and .NET 10 applications on Windows. Each sample installs it from the [`BugSplat`](https://www.nuget.org/packages/BugSplat) NuGet package.
 
 | Sample | Runtime | What it shows |
