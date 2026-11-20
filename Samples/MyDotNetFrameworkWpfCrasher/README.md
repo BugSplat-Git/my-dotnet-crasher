@@ -87,7 +87,7 @@ reg add "HKLM\SOFTWARE\Microsoft\Windows\Windows Error Reporting\RuntimeExceptio
 
 The app checks `BugSplat.IsWerEnabled` at startup and disables the Heap Corruption card, with a
 tooltip explaining why, until the entry exists. Restart the app after adding it. See step 3 of
-the [BugSplat for Windows (C++) guide](https://docs.bugsplat.com/integrations/desktop/cplusplus)
+the [BugSplat for Windows (C++) guide](https://docs.bugsplat.com/integrations/desktop/windows)
 for details.
 
 A stack overflow in managed code is not covered, even with WER registered: the .NET Framework

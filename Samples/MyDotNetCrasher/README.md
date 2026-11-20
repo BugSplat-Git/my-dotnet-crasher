@@ -84,7 +84,7 @@ BugSplat's WER runtime-exception helper (`BugSplatWer.dll`), which the SDK regis
 the machine allowlists it under
 `HKLM\SOFTWARE\Microsoft\Windows\Windows Error Reporting\RuntimeExceptionHelperModules` (a
 `REG_DWORD` named with the full path to `BugSplatWer.dll`, created with administrator rights —
-see step 3 of the [BugSplat for Windows (C++) guide](https://docs.bugsplat.com/integrations/desktop/cplusplus)).
+see step 3 of the [BugSplat for Windows (C++) guide](https://docs.bugsplat.com/integrations/desktop/windows)).
 The other modes use BugSplat's application exception handler and need no such setup.
 
 ## Shipping the BugSplat native runtime
